@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private InputAction jumpAction;
     private bool isOnGround = true;
+    public int jumpCount = 0;
 
     private Animator playerAnim;
     private AudioSource playerAudio;
@@ -43,11 +44,17 @@ public class PlayerController : MonoBehaviour
         if (jumpAction.triggered && isOnGround && !gameOver)
         {
             rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-            isOnGround = false;
             playerAnim.SetTrigger("Jump_trig");
             dirtParticle.Stop();
             playerAudio.PlayOneShot(jumpSfx);
+            jumpCount--;
+            if(jumpCount < 0)
+            {
+                jumpCount = 2;
+                isOnGround = false;
+            }
         }
+    
     }
 
     private void OnCollisionEnter(Collision collision)
