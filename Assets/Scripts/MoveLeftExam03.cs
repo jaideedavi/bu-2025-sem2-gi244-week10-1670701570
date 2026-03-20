@@ -18,9 +18,13 @@ public class MoveLeft : MonoBehaviour
     {
         if (!playerController.gameOver)
         {
+          if (Input.GetKey(KeyCode.LeftShift))
+            {
+                transform.Translate(Vector3.left * Time.deltaTime * speed * 2);
+            }
             transform.Translate(Vector3.left * Time.deltaTime * speed);
         }
-
+ 
         if (transform.position.x < leftBound && gameObject.CompareTag("Obstacle"))
         {
             Destroy(gameObject);
