@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float gravityModifier;
     public ParticleSystem explosionParticle;
     public ParticleSystem dirtParticle;
+    public int healthPoint = 3;
 
     public AudioClip jumpSfx;
     public AudioClip crashSfx;
@@ -66,13 +67,20 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("Game Over!");
-            gameOver = true;
-            playerAnim.SetBool("Death_b", true);
-            playerAnim.SetInteger("DeathType_int", 1);
+            healthPoint--;
+            if (healthPoint <= 0)
+            {
+                Debug.Log("Game Over!");
+                gameOver = true;
+                playerAnim.SetBool("Death_b", true);
+                playerAnim.SetInteger("DeathType_int", 1);
+                dirtParticle.Stop();
+            }
+            else
+            {
             explosionParticle.Play();
-            dirtParticle.Stop();
             playerAudio.PlayOneShot(crashSfx);
+            }
         }
     }
 
